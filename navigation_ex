@@ -1,0 +1,71 @@
+import React, { Component } from 'react';
+import { Platform, Image, Text } from 'react-native';
+import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { Icon } from 'native-base';
+
+import CompanyScreen from '../screens/main/company';
+import SettingCompany from '../screens/main/settingCompany';
+import NoticeScreen from '../screens/main/notice';
+
+export default TabNavigator(
+  {
+    company: {
+      screen: CompanyScreen
+    },
+    setting: {
+      screen: SettingCompany
+    },
+    notification: {
+      screen: NoticeScreen
+    }
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        switch (routeName) {
+          case 'notification':
+            iconName = require('./img/ic_notifications_black.png');
+            break;
+          case 'company':
+            iconName = require('./img/ic_domain_black.png');
+            break;
+          case 'setting':
+            iconName = require('./img/ic_setting.png');
+            break;
+        }
+
+        if (focused) {
+          return <Image source={iconName} style={{ width: 23, height: 23, tintColor: '#0795DB' }} />;
+        }
+        return <Image source={iconName} style={{ width: 23, height: 23, tintColor: '#DADADA' }} />;
+      },
+      tabBarLabel: ({ focused }) => {
+        const { routeName } = navigation.state;
+        let labelName;
+        switch (routeName) {
+          case 'notification':
+            labelName = 'Thông báo';
+            break;
+          case 'company':
+            labelName = 'Công ty';
+            break;
+          case 'setting':
+            labelName = 'Quản lý';
+            break;
+        }
+        if (focused) {
+          return <Text style={{ alignSelf: 'center', color: '#0795DB' }}>{labelName}</Text>;
+        }
+
+        return <Text style={{ alignSelf: 'center', color: '#DADADA' }}>{labelName}</Text>;
+      }
+    }),
+    initialRouteName: 'setting',
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: 'bottom',
+    animationEnabled: false,
+    swipeEnabled: false
+  }
+);
